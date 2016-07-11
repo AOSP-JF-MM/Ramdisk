@@ -121,6 +121,9 @@ on enable-low-power
 
     write /dev/cpuctl/cpu.notify_on_migrate 1
 
+    rm /data/system/perfd/default_values
+    start mpdecision
+
 on property:init.svc.recovery=running
     trigger enable-low-power
 
@@ -139,6 +142,5 @@ on property:recovery.perf.mode=0
 on property:dev.bootcomplete=1
     # Set iosched
     setprop sys.io.scheduler bfq
-
-    rm /data/system/perfd/default_values
-    start mpdecision
+    write /sys/block/mmcblk1/queue/scheduler bfq
+    write /sys/block/mmcblk1/queue/iosched/slice_idle 0
